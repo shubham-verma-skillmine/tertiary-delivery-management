@@ -9,10 +9,8 @@ type InvoiceListProps = {
   openInvoiceDetails: (invoice: Invoice) => void;
 };
 
-const InvoiceList = ({ dealer, openInvoiceDetails }: InvoiceListProps) => {
-  const [invoices, setInvoices] = useState<Invoice[]>(
-    dummyInvoices as Invoice[],
-  );
+const InvoiceList = ({ openInvoiceDetails }: InvoiceListProps) => {
+  const [invoices] = useState<Invoice[]>(dummyInvoices as Invoice[]);
 
   const handleInvoiceSelect = (invoiceId: string) => {
     const invoice = invoices.find((d) => d.id === invoiceId);

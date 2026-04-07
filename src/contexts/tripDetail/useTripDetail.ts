@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { TripDetailContext } from "./tripDetailContext";
+import { TripDetailContext } from "./TripDetailContext";
 
 export const useTripDetail = () => {
   const ctx = useContext(TripDetailContext);

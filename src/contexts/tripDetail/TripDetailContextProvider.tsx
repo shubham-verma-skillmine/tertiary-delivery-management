@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { TripDetailContext } from "./tripDetailContext";
+import { TripDetailContext } from "./TripDetailContext";
 
 export const TripDetailContextProvider = ({
   children,

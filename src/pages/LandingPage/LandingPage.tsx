@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Dealer } from "@/schemas/dealerSchema";
 import MainLayout from "@/layouts/MainLayout";
 import DeliveryStatusStripe from "./components/DeliveryStatusStripe";
@@ -7,7 +7,7 @@ import DeliveryDetails from "./components/DeliveryDetails";
 import dummyDealers from "../../mocks/dealers.json";
 
 export default function LandingPage() {
-  const [dealers, setDealers] = useState<Dealer[]>(dummyDealers as Dealer[]);
+  const [dealers] = useState<Dealer[]>(dummyDealers as Dealer[]);
   const [selectedDealer, setSelectedDealer] = useState<Dealer | null>(null);
 
   const handleDealerSelect = (dealerId: string) => {
