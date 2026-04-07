@@ -1,14 +1,11 @@
+import { TripDetailContextProvider } from "./contexts/tripDetail";
+import LandingPage from "./pages/LandingPage";
+
 function App() {
   return (
-    <input
-      type="file"
-      capture="environment"
-      accept="image/*"
-      multiple={false}
-      onChange={(e) => {
-        console.log(e.target.files);
-      }}
-    />
+    <TripDetailContextProvider>
+      <LandingPage />
+    </TripDetailContextProvider>
   );
 }
 

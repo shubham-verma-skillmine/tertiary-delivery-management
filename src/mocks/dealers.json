@@ -1,0 +1,26 @@
+[
+    {
+        "TripId": "1111-001-260401-003-29",
+        "Kunnr": "1001",
+        "CustName": "ARORA TYRES",
+        "Status": "delivered"
+    },
+    {
+        "TripId": "2",
+        "Kunnr": "1002",
+        "CustName": "RAM PRAKASH AGARWAL",
+        "Status": "pending"
+    },
+    {
+        "TripId": "3",
+        "Kunnr": "1003",
+        "CustName": "STANDARD TYRE & BATTERIES",
+        "Status": "pending"
+    },
+    {
+        "TripId": "4",
+        "Kunnr": "1004",
+        "CustName": "GOLDEN ROADWAYS SERVICE",
+        "Status": "delivered"
+    }
+]

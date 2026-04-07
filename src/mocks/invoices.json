@@ -1,0 +1,119 @@
+[
+    {
+        "id": "INV-1001",
+        "amount": 12500,
+        "date": "2026-04-01",
+        "itemCount": 5,
+        "paymentMode": "cash",
+        "status": "paid",
+        "dueDate": "2026-04-10",
+        "note": "Paid at delivery",
+        "items": []
+    },
+    {
+        "id": "INV-1002",
+        "amount": 8200,
+        "date": "2026-04-02",
+        "itemCount": 3,
+        "paymentMode": "upi",
+        "status": "pending",
+        "dueDate": "2026-04-12",
+        "items": []
+    },
+    {
+        "id": "INV-1003",
+        "amount": 15750,
+        "date": "2026-03-20",
+        "itemCount": 7,
+        "paymentMode": "bank_transfer",
+        "status": "overdue",
+        "overdueDays": 12,
+        "dueDate": "2026-03-25",
+        "note": "Customer requested extension",
+        "items": []
+    },
+    {
+        "id": "INV-1004",
+        "amount": 4300,
+        "date": "2026-04-03",
+        "itemCount": 2,
+        "paymentMode": "cash",
+        "status": "paid",
+        "dueDate": "2026-04-08",
+        "items": []
+    },
+    {
+        "id": "INV-1005",
+        "amount": 9900,
+        "date": "2026-03-28",
+        "itemCount": 4,
+        "paymentMode": "upi",
+        "status": "overdue",
+        "overdueDays": 5,
+        "dueDate": "2026-03-31",
+        "items": []
+    },
+    {
+        "id": "INV-1004",
+        "amount": 4300,
+        "date": "2026-04-03",
+        "itemCount": 2,
+        "paymentMode": "cash",
+        "status": "paid",
+        "dueDate": "2026-04-08",
+        "items": []
+    },
+    {
+        "id": "INV-1005",
+        "amount": 9900,
+        "date": "2026-03-28",
+        "itemCount": 4,
+        "paymentMode": "upi",
+        "status": "overdue",
+        "overdueDays": 5,
+        "dueDate": "2026-03-31",
+        "items": []
+    },
+    {
+        "id": "INV-1006",
+        "amount": 4300,
+        "date": "2026-04-03",
+        "itemCount": 2,
+        "paymentMode": "cash",
+        "status": "paid",
+        "dueDate": "2026-04-08",
+        "items": []
+    },
+    {
+        "id": "INV-1007",
+        "amount": 9900,
+        "date": "2026-03-28",
+        "itemCount": 4,
+        "paymentMode": "upi",
+        "status": "overdue",
+        "overdueDays": 5,
+        "dueDate": "2026-03-31",
+        "items": []
+    },
+    {
+        "id": "INV-1008",
+        "amount": 4300,
+        "date": "2026-04-03",
+        "itemCount": 2,
+        "paymentMode": "cash",
+        "status": "paid",
+        "dueDate": "2026-04-08",
+        "items": []
+    },
+    {
+        "id": "INV-1009",
+        "amount": 9900,
+        "date": "2026-03-28",
+        "itemCount": 4,
+        "paymentMode": "upi",
+        "status": "overdue",
+        "overdueDays": 5,
+        "dueDate": "2026-03-31",
+        "items": []
+    }
+]
