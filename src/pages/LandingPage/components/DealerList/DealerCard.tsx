@@ -1,6 +1,5 @@
 import { ChevronRight, MapPin, Package } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 type DealerCardProps = {
   name: string;
@@ -10,13 +9,7 @@ type DealerCardProps = {
   onCardClick: () => void;
 };
 
-const DealerCard = ({
-  name,
-  address,
-  load,
-  status,
-  onCardClick,
-}: DealerCardProps) => {
+const DealerCard = ({ name, address, load, onCardClick }: DealerCardProps) => {
   const getNameInitials = (name: string) => {
     if (!name) return "";
     return name
