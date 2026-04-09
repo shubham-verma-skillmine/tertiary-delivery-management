@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { Camera, Eye, ImagePlus, Upload, X } from "lucide-react";
-import { Input } from "../../../../components/ui/input";
 import { Label } from "../../../../components/ui/label";
 import { Button } from "../../../../components/ui/button";
 import PhotoInputButton from "./PhotoInputButton";
@@ -19,16 +18,13 @@ const DeliveryForm = ({
   openHomePage,
   openDeliverySubmitResponseView,
 }: DeliveryFormProps) => {
-  const [receiverName, setReceiverName] = useState("");
   const [photos, setPhotos] = useState<UploadedPhoto[]>([]);
   const [previewPhoto, setPreviewPhoto] = useState<UploadedPhoto | null>(null);
 
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const nameValid = receiverName.trim().length > 1;
-  const photoValid = photos.length >= MIN_PHOTOS;
-  const canSubmit = nameValid && photoValid;
+  const canSubmit = photos.length >= MIN_PHOTOS;
   const canAddMorePhotos = photos.length < MAX_PHOTOS;
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -64,17 +60,6 @@ const DeliveryForm = ({
   return (
     <>
       <div className="flex flex-col min-h-full h-full">
-        <div className="my-5">
-          <Label className="text-[13px] font-semibold text-muted-foreground">
-            Receiver's name <span className="text-destructive">*</span>
-          </Label>
-          <Input
-            value={receiverName}
-            onChange={(e) => setReceiverName(e.target.value)}
-            placeholder="Name of person who received"
-            className="h-12 text-[15px] focus-visible:ring-[#FFC107] focus-visible:ring-1 focus-visible:border-[#FFC107] bg-card"
-          />
-        </div>
         <div className="my-5">
           <div>
             <Label className="text-[13px] font-semibold text-muted-foreground">

@@ -1,12 +1,12 @@
-type DeliveryTabsProps = {
+type DataTabsProps = {
   tabs: { label: string; value: string }[];
   activeTab: string;
   setActiveTab: (tab: string) => void;
 };
 
-const DeliveryTabs = ({ tabs, activeTab, setActiveTab }: DeliveryTabsProps) => {
+const DataTabs = ({ tabs, activeTab, setActiveTab }: DataTabsProps) => {
   return (
-    <div className="flex">
+    <div className="flex px-5 py-2">
       {tabs.map(({ label, value }) => (
         <button
           key={value}
@@ -19,23 +19,18 @@ const DeliveryTabs = ({ tabs, activeTab, setActiveTab }: DeliveryTabsProps) => {
                 ? "3px solid #1a1a1a"
                 : "3px solid transparent",
             background: "none",
-            //   border: "none",
+            //   border: "none",`
           }}
         >
           {label}
 
-          {/* {value === "invoices" && overdueCount > 0 && (
-                  <span
-                    className="absolute top-1.5 ml-1 text-[9px] font-bold px-1.5 py-0.5 rounded-full"
-                    style={{ background: "#E53935", color: "#fff" }}
-                  >
-                    {overdueCount}
-                  </span>
-                )} */}
+          <span className="bg-[#FFC107] text-black text-[10px] font-bold px-1.5 py-0.5 ml-1 rounded-full">
+            {10}
+          </span>
         </button>
       ))}
     </div>
   );
 };
 
-export default DeliveryTabs;
+export default DataTabs;

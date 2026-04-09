@@ -1,14 +1,15 @@
 import { useState } from "react";
 import type { Dealer } from "@/schemas/dealerSchema";
 import MainLayout from "@/layouts/MainLayout";
-import DeliveryStatusStripe from "./components/DeliveryStatusStripe";
 import DealerList from "./components/DealerList";
 import DeliveryDetails from "./components/DeliveryDetails";
 import dummyDealers from "../../mocks/dealers.json";
+import DataTabs from "./components/DataTabs";
 
 export default function LandingPage() {
   const [dealers] = useState<Dealer[]>(dummyDealers as Dealer[]);
   const [selectedDealer, setSelectedDealer] = useState<Dealer | null>(null);
+  const [selectedTab, setSelectedTab] = useState("pending");
 
   const handleDealerSelect = (dealerId: string) => {
     const dealer = dealers.find((d) => d.Kunnr === dealerId);
@@ -69,10 +70,24 @@ export default function LandingPage() {
 
   return (
     <MainLayout>
-      <DeliveryStatusStripe
+      {/* <DeliveryStatusStripe
         totalDeliveries={dealers.length}
         delivered={dealers.filter((d) => d.Status === "delivered").length}
         distanceCovered={0}
+      /> */}
+      <DataTabs
+        tabs={[
+          {
+            label: "Pending",
+            value: "pending",
+          },
+          {
+            label: "Completed",
+            value: "completed",
+          },
+        ]}
+        activeTab={selectedTab}
+        setActiveTab={setSelectedTab}
       />
       <DealerList dealers={dealers} onDealerSelect={handleDealerSelect} />
     </MainLayout>

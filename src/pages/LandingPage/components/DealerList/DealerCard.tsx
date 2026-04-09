@@ -55,7 +55,7 @@ const DealerCard = ({
           </p>
         </div>
 
-        {status === "delivered" ? (
+        {/* {status === "delivered" ? (
           <Badge className="bg-green-100 text-green-800 hover:bg-green-100 text-[11px] font-medium border-0">
             Delivered
           </Badge>
@@ -63,7 +63,7 @@ const DealerCard = ({
           <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100 text-[11px] font-medium border-0">
             Pending
           </Badge>
-        )}
+        )} */}
 
         <ChevronRight size={16} className="text-gray-400 flex-shrink-0" />
       </CardContent>

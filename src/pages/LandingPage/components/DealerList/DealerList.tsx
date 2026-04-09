@@ -8,7 +8,7 @@ type DealerListProps = {
 
 const DealerList = ({ dealers = [], onDealerSelect }: DealerListProps) => {
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 pb-10">
+    <div className="flex-1 overflow-y-auto px-4 pb-10 space-y-3">
       {dealers.map(({ CustName, Kunnr }) => (
         <DealerCard
           key={Kunnr}
