@@ -4,7 +4,8 @@ export const DealerSchema = z.object({
   TripId: z.string(),
   Kunnr: z.string(),
   CustName: z.string(),
-  Status: z.enum(["pending", "delivered"]),
+  RouteCd: z.string(),
+  RouteName: z.string(),
 });
 
 export type Dealer = z.infer<typeof DealerSchema>;

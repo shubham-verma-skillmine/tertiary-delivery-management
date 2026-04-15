@@ -5,6 +5,7 @@ import { Button } from "../../../../components/ui/button";
 import PhotoInputButton from "./PhotoInputButton";
 import type { UploadedPhoto } from "@/schemas/uploadPhotoSchema";
 import PhotoPreviewDialog from "./PhotoPreviewDialog";
+import { apiClient } from "@/api/apiClient";
 
 const MAX_PHOTOS = 3;
 const MIN_PHOTOS = 1;
@@ -27,12 +28,15 @@ const DeliveryForm = ({
   const canSubmit = photos.length >= MIN_PHOTOS;
   const canAddMorePhotos = photos.length < MAX_PHOTOS;
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
     if (!files.length) return;
 
     const remaining = MAX_PHOTOS - photos.length;
     const toAdd = files.slice(0, remaining);
+    try {
+      await apiClient.get("tertiary/public/delivery/documents/upload-url");
+    } catch (error) {}
 
     const newPhotos: UploadedPhoto[] = toAdd.map((file) => ({
       id: `${Date.now()}-${Math.random()}`,
