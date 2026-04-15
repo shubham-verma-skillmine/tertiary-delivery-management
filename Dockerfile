@@ -45,7 +45,7 @@ RUN echo 'server { \
     index index.html; \
     \
     # Handle client-side routing \
-    location / { \
+    location /tp { \
     try_files $uri $uri/ /index.html; \
     } \
     \
