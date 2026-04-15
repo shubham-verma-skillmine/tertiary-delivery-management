@@ -44,13 +44,23 @@ RUN echo 'server { \
     root /usr/share/nginx/html; \
     index index.html; \
     \
-    # Handle client-side routing \
-    location /tp { \
-    try_files $uri $uri/ /index.html; \
+    # redirect root to /tp \
+    location = / { \
+    return 301 /tp/; \
+    } \
+    \
+    # ensure trailing slash \
+    location = /tp { \
+    return 301 /tp/; \
+    } \
+    \
+    # SPA routing for /tp \
+    location /tp/ { \
+    try_files $uri $uri/ /tp/index.html; \
     } \
     \
     # Cache static assets \
-    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ { \
+    location /tp/assets/ { \
     expires 1y; \
     add_header Cache-Control "public, immutable"; \
     } \
