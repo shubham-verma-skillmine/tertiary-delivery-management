@@ -1,5 +1,5 @@
 {
-  "name": "tirri",
+  "name": "tertiary-delivery-management",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -16,7 +16,7 @@
     "deploy:production": "npm run build:production && firebase deploy",
     "docker:build": "docker build --no-cache --target production -t tertiary-delivery-management-frontend .",
     "docker:build:prod": "docker build --no-cache --target production -t tertiary-delivery-management-frontend:latest .",
-    "docker:run": "docker run -it -d --name tertiary-delivery-management-frontend -p 3000:80 tertiary-delivery-management-frontend:latest",
+    "docker:run": "docker run -it -d --name tertiary-delivery-management-frontend -p 3100:80 tertiary-delivery-management-frontend:latest",
     "docker:stop": "docker stop tertiary-delivery-management-frontend && docker rm tertiary-delivery-management-frontend",
     "docker": "npm run docker:build && (docker rm -f tertiary-delivery-management-frontend || echo Container not found) && npm run docker:run"
   },
