@@ -1,6 +1,6 @@
 import { AppError } from "@/utils/AppError";
 
-const BASE_URL = "https://tms.jktyre.co.in/api/v1";
+const BASE_URL = "https://tms.jktyre.co.in/api/v1/";
 
 type RequestMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
