@@ -26,7 +26,7 @@ const PhotoPreviewDialog = ({
         <DialogTitle className="sr-only">Photo preview</DialogTitle>
         <div className="relative">
           <img
-            src={photoDetails.preview}
+            src={photoDetails.documentUrl}
             alt="Preview"
             className="w-full object-contain max-h-[75vh]"
           />
@@ -39,13 +39,13 @@ const PhotoPreviewDialog = ({
         </div>
         <div className="p-4 flex items-center justify-between border-t border-border bg-card">
           <p className="text-[12px] text-muted-foreground truncate max-w-[60%]">
-            {photoDetails.file.name}
+            {photoDetails.documentName}
           </p>
           <Button
             variant="destructive"
             size="sm"
             onClick={() => {
-              removePhoto(photoDetails.id);
+              removePhoto(photoDetails.documentId);
               closeDialog();
             }}
           >

@@ -36,7 +36,7 @@ export const uploadDocumentToPresignedUrl = async ({
   contentType,
 }: {
   apiUrl: string;
-  binaryImage: unknown;
+  binaryImage: BodyInit | null | undefined;
   contentType: string;
 }) => {
   await fetch(apiUrl, {

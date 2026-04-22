@@ -6,6 +6,7 @@ export const DocumentUploadRequestPayloadSchema = z.object({
   documentId: z.string(),
   latitude: z.string(),
   longitude: z.string(),
+  contentType: z.string(),
 });
 
 export type DocumentUploadRequestPayload = z.infer<
