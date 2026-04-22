@@ -1,6 +1,8 @@
 import { AppError } from "@/utils/AppError";
 
-const BASE_URL = "https://tms.jktyre.co.in/api/v1/";
+export const BASE_URL = "https://etms-dev.jktyre.co.in/api/v1/";
+
+// export const BASE_URL = "http://localhost:8000/api/v1/";
 
 type RequestMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -70,6 +72,7 @@ const request = async <TResponse>(
     method: config.method,
     headers,
     signal: config.signal,
+    credentials: "include",
   };
 
   if (
@@ -111,7 +114,6 @@ const request = async <TResponse>(
   if (config.enableResponseParsing) {
     data = (data as Record<string, unknown>)?.data ?? data;
   }
-  console.log("apiClient: ", data);
   return data as TResponse;
 };
 

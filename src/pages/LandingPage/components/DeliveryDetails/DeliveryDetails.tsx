@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import type { Dealer } from "@/schemas/dealerSchema";
 import DeliveryForm from "./DeliveryForm";
 import { DeliverySubmitResponseView } from "./DeliverySubmitResponseView";
+import { useTripDetail } from "@/contexts/tripDetail";
+import DeliveryFormSkeleton from "./DeliveryFormSkeleton";
+import { useStartSessionMutation } from "@/queries/tertiaryDeliveryMutations";
+import { BASE_URL } from "@/api/apiClient";
+import { AppError } from "@/utils/AppError";
 
 type DeliveryDetailsProps = {
   dealer: Dealer;
@@ -15,6 +20,29 @@ export default function DeliveryDetails({
 }: DeliveryDetailsProps) {
   const [submitResponseViewActive, setSubmitResponseViewActive] =
     useState(false);
+
+  const { tripId } = useTripDetail();
+
+  const { mutate, isPending } = useStartSessionMutation({
+    onError: (error) => {
+      if (AppError.isAppError(error)) {
+        alert(error.userMessage);
+      } else {
+        alert("Something went wrong");
+      }
+      openHomePage();
+    },
+  });
+
+  useEffect(() => {
+    mutate({ tripId, dealerCode: dealer?.Kunnr ?? "" });
+
+    return () => {
+      navigator.sendBeacon(
+        `${BASE_URL}tertiary/public/serviceprovider/delivery-sessions/current`,
+      );
+    };
+  }, []);
 
   if (submitResponseViewActive) {
     return (
@@ -58,12 +86,17 @@ export default function DeliveryDetails({
               </p>
             </div>
             <div className="h-full flex flex-col">
-              <DeliveryForm
-                openHomePage={openHomePage}
-                openDeliverySubmitResponseView={() =>
-                  setSubmitResponseViewActive(true)
-                }
-              />
+              {isPending ? (
+                <DeliveryFormSkeleton />
+              ) : (
+                <DeliveryForm
+                  dealer={dealer}
+                  openHomePage={openHomePage}
+                  openDeliverySubmitResponseView={() =>
+                    setSubmitResponseViewActive(true)
+                  }
+                />
+              )}
             </div>
           </div>
         </div>

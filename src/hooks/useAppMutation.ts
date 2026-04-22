@@ -1,9 +1,19 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 type MutationStatus = "idle" | "pending" | "success" | "error";
 
 export type UseAppMutationOptions<TData, TVariables> = {
   mutationFn: (variables: TVariables) => Promise<TData>;
+  onSuccess?: (data: TData, variables: TVariables) => void;
+  onError?: (error: unknown, variables: TVariables) => void;
+  onSettled?: (
+    data: TData | undefined,
+    error: unknown,
+    variables: TVariables,
+  ) => void;
+};
+
+export type MutateCallOptions<TData, TVariables> = {
   onSuccess?: (data: TData, variables: TVariables) => void;
   onError?: (error: unknown, variables: TVariables) => void;
   onSettled?: (
@@ -21,7 +31,10 @@ type UseAppMutationReturn<TData, TVariables> = {
   isPending: boolean;
   isSuccess: boolean;
   isError: boolean;
-  mutate: (variables: TVariables) => Promise<void>;
+  mutate: (
+    variables: TVariables,
+    callOptions?: MutateCallOptions<TData, TVariables>,
+  ) => Promise<void>;
   reset: () => void;
 };
 
@@ -38,34 +51,43 @@ export const useAppMutation = <TData, TVariables>({
   const [error, setError] = useState<unknown>(undefined);
   const [status, setStatus] = useState<MutationStatus>("idle");
 
-  const mutate = async (variables: TVariables): Promise<void> => {
-    setData(undefined);
-    setError(undefined);
-    setStatus("pending");
-    try {
-      const response = await mutationFn(variables);
-      setData(response);
-      setStatus("success");
-      onSuccess?.(response, variables);
-      onSettled?.(response, undefined, variables);
-    } catch (err) {
-      setError(err);
-      setStatus("error");
+  const mutate = useCallback(
+    async (
+      variables: TVariables,
+      callOptions?: MutateCallOptions<TData, TVariables>,
+    ): Promise<void> => {
+      setData(undefined);
+      setError(undefined);
+      setStatus("pending");
+      try {
+        const response = await mutationFn(variables);
+        setData(response);
+        setStatus("success");
 
-      if (onError) {
-        onError(err, variables);
-      } else {
-        throw err;
+        onSuccess?.(response, variables);
+        callOptions?.onSuccess?.(response, variables);
+
+        onSettled?.(response, undefined, variables);
+        callOptions?.onSettled?.(response, undefined, variables);
+      } catch (err) {
+        setError(err);
+        setStatus("error");
+
+        onError?.(err, variables);
+        callOptions?.onError?.(err, variables);
+
+        onSettled?.(undefined, err, variables);
+        callOptions?.onSettled?.(undefined, err, variables);
       }
-      onSettled?.(undefined, err, variables);
-    }
-  };
+    },
+    [mutationFn, onSuccess, onError, onSettled],
+  );
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setData(undefined);
     setError(undefined);
     setStatus("idle");
-  };
+  }, []);
 
   return {
     data,
