@@ -18,6 +18,7 @@ export default function LandingPage() {
   const {
     data: dealers = [],
     isLoading,
+    isFetching,
     isError,
     refetch,
   } = useDealerQuery({ tripId });
@@ -39,7 +40,7 @@ export default function LandingPage() {
     );
   }
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <MainLayout>
         <DealerListSkeleton />
