@@ -31,7 +31,10 @@ export default function LandingPage() {
     return (
       <DeliveryDetails
         dealer={selectedDealer}
-        openHomePage={() => setSelectedDealer(null)}
+        openHomePage={() => {
+          setSelectedDealer(null);
+          refetch();
+        }}
       />
     );
   }
