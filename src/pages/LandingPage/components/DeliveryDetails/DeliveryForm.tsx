@@ -30,20 +30,39 @@ const getCurrentCoordinates = (): Promise<{
   latitude: string;
   longitude: string;
 }> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (!navigator.geolocation) {
-      reject(new Error("Geolocation not supported"));
+      console.warn("Geolocation not supported, using fallback");
+      resolve({ latitude: "28.6139", longitude: "77.2090" });
       return;
     }
+
+    let settled = false;
+    const timeoutId = setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      console.warn("Geolocation timed out, using fallback");
+      resolve({ latitude: "28.6139", longitude: "77.2090" });
+    }, 5000);
+
     navigator.geolocation.getCurrentPosition(
-      (pos) =>
+      (pos) => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeoutId);
         resolve({
           latitude: pos.coords.latitude.toString(),
           longitude: pos.coords.longitude.toString(),
-        }),
-      () =>
-        // Fallback to a default if user denies location
-        resolve({ latitude: "28.6139", longitude: "77.2090" }),
+        });
+      },
+      (err) => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeoutId);
+        console.warn("Geolocation error:", err);
+        resolve({ latitude: "28.6139", longitude: "77.2090" });
+      },
+      { timeout: 4500, maximumAge: 0 },
     );
   });
 };
@@ -96,77 +115,88 @@ const DeliveryForm = ({
       return;
     }
 
-    const contentType = file.type || "image/jpeg";
-    const documentId = getNextDocumentId();
-    const coordinates = await getCurrentCoordinates();
+    try {
+      const contentType = file.type || "image/jpeg";
+      const documentId = getNextDocumentId();
+      const coordinates = await getCurrentCoordinates();
+      console.log("Coordinates: ", coordinates);
 
-    setIsUploading(true);
-    setUploadProgress(0);
+      setIsUploading(true);
+      setUploadProgress(0);
 
-    getUploadUrl(
-      {
-        tripId,
-        dealerCode: dealer.Kunnr,
-        documentId,
-        contentType,
-        ...coordinates,
-      },
-      {
-        onError: () => {
-          toast.error("Failed to get upload URL");
-          setIsUploading(false);
+      getUploadUrl(
+        {
+          tripId,
+          dealerCode: dealer.Kunnr,
+          documentId,
+          contentType,
+          ...coordinates,
         },
-        onSuccess: (uploadData) => {
-          setUploadProgress(33);
+        {
+          onError: () => {
+            toast.error("Failed to get upload URL");
+            setIsUploading(false);
+          },
+          onSuccess: (uploadData) => {
+            setUploadProgress(33);
 
-          uploadToUrl(
-            { apiUrl: uploadData.presignedUrl, binaryImage: file, contentType },
-            {
-              onError: () => {
-                toast.error("Failed to upload photo");
-                setIsUploading(false);
+            uploadToUrl(
+              {
+                apiUrl: uploadData.presignedUrl,
+                binaryImage: file,
+                contentType,
               },
-              onSuccess: () => {
-                setUploadProgress(66);
+              {
+                onError: () => {
+                  toast.error("Failed to upload photo");
+                  setIsUploading(false);
+                },
+                onSuccess: () => {
+                  setUploadProgress(66);
 
-                getDownloadUrl(
-                  { documentName: uploadData.documentName },
-                  {
-                    onError: (error) => {
-                      console.log("Download URL error: ", error);
-                      toast.error("Failed to retrieve uploaded photo");
-                      setIsUploading(false);
+                  getDownloadUrl(
+                    { documentName: uploadData.documentName },
+                    {
+                      onError: (error) => {
+                        console.log("Download URL error: ", error);
+                        toast.error("Failed to retrieve uploaded photo");
+                        setIsUploading(false);
+                      },
+                      onSuccess: ({ presignedUrl }) => {
+                        console.log("Download URL: ", presignedUrl);
+                        setUploadProgress(100);
+                        setPhotos((prev) => {
+                          const existingIndex = prev.findIndex(
+                            (p) => p.documentId === documentId,
+                          );
+                          const newPhoto: UploadedPhoto = {
+                            documentId,
+                            documentName: uploadData.documentName,
+                            documentUrl: presignedUrl,
+                          };
+                          if (existingIndex !== -1) {
+                            // Replace existing slot
+                            const updated = [...prev];
+                            updated[existingIndex] = newPhoto;
+                            return updated;
+                          }
+                          return [...prev, newPhoto];
+                        });
+                        setIsUploading(false);
+                      },
                     },
-                    onSuccess: ({ presignedUrl }) => {
-                      console.log("Download URL: ", presignedUrl);
-                      setUploadProgress(100);
-                      setPhotos((prev) => {
-                        const existingIndex = prev.findIndex(
-                          (p) => p.documentId === documentId,
-                        );
-                        const newPhoto: UploadedPhoto = {
-                          documentId,
-                          documentName: uploadData.documentName,
-                          documentUrl: presignedUrl,
-                        };
-                        if (existingIndex !== -1) {
-                          // Replace existing slot
-                          const updated = [...prev];
-                          updated[existingIndex] = newPhoto;
-                          return updated;
-                        }
-                        return [...prev, newPhoto];
-                      });
-                      setIsUploading(false);
-                    },
-                  },
-                );
+                  );
+                },
               },
-            },
-          );
+            );
+          },
         },
-      },
-    );
+      );
+    } catch (error) {
+      console.error("Error handling file change: ", error);
+      toast.error("An unexpected error occurred");
+      setIsUploading(false);
+    }
   };
 
   const removePhoto = (id: string) => {

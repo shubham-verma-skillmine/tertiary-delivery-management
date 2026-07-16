@@ -6,7 +6,7 @@ import { DeliverySubmitResponseView } from "./DeliverySubmitResponseView";
 import { useTripDetail } from "@/contexts/tripDetail";
 import DeliveryFormSkeleton from "./DeliveryFormSkeleton";
 import { useStartSessionMutation } from "@/queries/tertiaryDeliveryMutations";
-import { BASE_URL } from "@/api/apiClient";
+// import { BASE_URL } from "@/api/apiClient";
 import { AppError } from "@/utils/AppError";
 
 type DeliveryDetailsProps = {
@@ -37,11 +37,11 @@ export default function DeliveryDetails({
   useEffect(() => {
     mutate({ tripId, dealerCode: dealer?.Kunnr ?? "" });
 
-    return () => {
-      navigator.sendBeacon(
-        `${BASE_URL}tertiary/public/serviceprovider/delivery-sessions/current`,
-      );
-    };
+    // return () => {
+    //   navigator.sendBeacon(
+    //     `${BASE_URL}tertiary/public/serviceprovider/delivery-sessions/current`,
+    //   );
+    // };
   }, []);
 
   if (submitResponseViewActive) {
