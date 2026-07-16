@@ -1,6 +1,8 @@
 import { AppError } from "@/utils/AppError";
 
-export const BASE_URL = "https://etms-dev.jktyre.co.in/api/v1/";
+export const BASE_URL = "https://tms.jktyre.co.in/api/v1/";
+
+// export const BASE_URL = "https://etms-dev.jktyre.co.in/api/v1/";
 
 // export const BASE_URL = "http://localhost:8000/api/v1/";
 
