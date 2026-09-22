@@ -21,8 +21,9 @@ const DealerErrorState = ({ onRetry }: DealerErrorStateProps) => {
         </p>
       </div>
       <Button
+        variant="default"
         onClick={onRetry}
-        className="bg-red-500 hover:bg-red-600 text-white w-full max-w-[180px]"
+        className="w-full max-w-[180px]"
       >
         Retry
       </Button>

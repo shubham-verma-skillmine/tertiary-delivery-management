@@ -7,7 +7,7 @@ type NoDealersStateProps = {
 
 const NoDealersState = ({ onRefresh }: NoDealersStateProps) => {
   return (
-    <div className="h-screen bg-background flex flex-col items-center justify-center text-center gap-4">
+    <div className="h-screen flex flex-col items-center justify-center text-center gap-4">
       <div className="w-14 h-14 rounded-full bg-green-50 border border-green-100 flex items-center justify-center">
         <MapPin className="w-6 h-6 text-green-700" strokeWidth={1.6} />
       </div>
@@ -21,7 +21,7 @@ const NoDealersState = ({ onRefresh }: NoDealersStateProps) => {
         </p>
       </div>
       <Button
-        variant="outline"
+        variant="default"
         onClick={onRefresh}
         className="w-full max-w-[180px]"
       >

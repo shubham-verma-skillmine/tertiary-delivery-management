@@ -368,7 +368,7 @@ const DeliveryForm = ({
             onClick={openHomePage}
             className="w-full h-11 text-sm text-muted-foreground border border-border"
           >
-            Skip this dealer
+            SKIP THIS DEALER
           </Button>
         </div>
 

@@ -6,6 +6,10 @@ export const DealerSchema = z.object({
   CustName: z.string(),
   RouteCd: z.string(),
   RouteName: z.string(),
+  BeatFreq: z.string(),
+  RtDate: z.string(),
+  RtTime: z.string(),
+  OthN2: z.string(),
 });
 
 export type Dealer = z.infer<typeof DealerSchema>;

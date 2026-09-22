@@ -1,13 +1,15 @@
+type TabValue = "pending" | "completed";
+
 type DataTabsProps = {
-  tabs: { label: string; value: string }[];
+  tabs: { label: string; value: TabValue; count: number }[];
   activeTab: string;
-  setActiveTab: (tab: string) => void;
+  setActiveTab: (tab: TabValue) => void;
 };
 
 const DataTabs = ({ tabs, activeTab, setActiveTab }: DataTabsProps) => {
   return (
     <div className="flex px-5 py-2">
-      {tabs.map(({ label, value }) => (
+      {tabs.map(({ label, value, count }) => (
         <button
           key={value}
           onClick={() => setActiveTab(value)}
@@ -24,9 +26,11 @@ const DataTabs = ({ tabs, activeTab, setActiveTab }: DataTabsProps) => {
         >
           {label}
 
-          <span className="bg-[#FFC107] text-black text-[10px] font-bold px-1.5 py-0.5 ml-1 rounded-full">
-            {10}
-          </span>
+          {count > 0 && (
+            <span className="bg-[#FFC107] text-black text-[10px] font-bold px-1.5 py-0.5 ml-1 rounded-full">
+              {count}
+            </span>
+          )}
         </button>
       ))}
     </div>

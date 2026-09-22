@@ -1,15 +1,20 @@
-import { ChevronRight, MapPin, Package } from "lucide-react";
+import { CalendarClock, ChevronRight, Package } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 type DealerCardProps = {
   name: string;
-  address: string;
+  completedAt: string | null;
   load: string;
   status: "delivered" | "pending";
   onCardClick: () => void;
 };
 
-const DealerCard = ({ name, address, load, onCardClick }: DealerCardProps) => {
+const DealerCard = ({
+  name,
+  completedAt,
+  load,
+  onCardClick,
+}: DealerCardProps) => {
   const getNameInitials = (name: string) => {
     if (!name) return "";
     return name
@@ -38,14 +43,16 @@ const DealerCard = ({ name, address, load, onCardClick }: DealerCardProps) => {
           <p className="font-semibold text-[15px] text-gray-900 dark:text-gray-100 truncate">
             {name}
           </p>
-          <p className="text-[12px] text-gray-500 mt-0.5 truncate flex items-center gap-1">
-            <MapPin size={11} className="flex-shrink-0" />
-            {address}
-          </p>
-          <p className="text-[11px] text-gray-400 mt-1 flex items-center gap-1">
+          <p className="text-[12px] text-gray-500 mt-1 flex items-center gap-1">
             <Package size={11} className="flex-shrink-0" />
             {load}
           </p>
+          {completedAt && (
+            <p className="text-[12px] text-gray-500 mt-0.5 truncate flex items-center gap-1">
+              <CalendarClock size={11} className="flex-shrink-0" />
+              {completedAt}
+            </p>
+          )}
         </div>
 
         {/* {status === "delivered" ? (

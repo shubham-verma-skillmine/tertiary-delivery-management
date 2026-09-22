@@ -76,15 +76,14 @@ export default function DeliveryDetails({
         </div>
         <div className="px-2 flex-1 overflow-y-auto flex flex-col">
           <div className="flex flex-col h-full">
-            <div className="my-3 px-4 py-3 bg-card border-b border-border">
+            {/* <div className="my-3 px-4 py-3 bg-card border-b border-border">
               <p className="text-[13px] font-medium text-foreground">
-                {/* {dealer.address} */}
                 15-B, Industrial Area Phase 2
               </p>
               <p className="text-[12px] text-muted-foreground mt-0.5">
-                {/* {dealer.load} */}5 crates · 40 units
+                5 crates · 40 units
               </p>
-            </div>
+            </div> */}
             <div className="h-full flex flex-col">
               {isPending ? (
                 <DeliveryFormSkeleton />
