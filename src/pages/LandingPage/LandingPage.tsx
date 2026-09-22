@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BASE_URL } from "@/api/apiClient";
 import type { Dealer } from "@/schemas/dealerSchema";
 import MainLayout from "@/layouts/MainLayout";
 import DealerList from "./components/DealerList";
@@ -21,7 +22,14 @@ export default function LandingPage() {
     isFetching,
     isError,
     refetch,
-  } = useDealerQuery({ tripId });
+  } = useDealerQuery({
+    tripId,
+    onSuccess: () => {
+      navigator.sendBeacon(
+        `${BASE_URL}tertiary/public/serviceprovider/delivery-sessions/current`,
+      );
+    },
+  });
 
   const handleDealerSelect = (dealerId: string) => {
     const dealer = dealers.find((d) => d.Kunnr === dealerId);
