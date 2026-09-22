@@ -1,19 +1,21 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { BASE_URL } from "@/api/apiClient";
 import type { Dealer } from "@/schemas/dealerSchema";
 import MainLayout from "@/layouts/MainLayout";
 import DealerList from "./components/DealerList";
 import DeliveryDetails from "./components/DeliveryDetails";
-// import DataTabs from "./components/DataTabs";
 import { useDealerQuery } from "@/queries/tertiaryDeliveryQueries";
 import { useTripDetail } from "@/contexts/tripDetail";
 import DealerListSkeleton from "./components/DealerList/DealerListSkeleton";
 import DealerErrorState from "./components/DealerErrorState";
-import NoDealersState from "./components";
+import DataTabs from "./components/DataTabs";
+// import DeliveryStatusStripe from "./components/DeliveryStatusStripe";
+
+type TabValue = "pending" | "completed";
 
 export default function LandingPage() {
   const [selectedDealer, setSelectedDealer] = useState<Dealer | null>(null);
-  // const [selectedTab, setSelectedTab] = useState("pending");
+  const [selectedTab, setSelectedTab] = useState<TabValue>("pending");
   const { tripId } = useTripDetail();
 
   const {
@@ -32,9 +34,18 @@ export default function LandingPage() {
   });
 
   const handleDealerSelect = (dealerId: string) => {
+    if (selectedTab !== "pending") return;
+
     const dealer = dealers.find((d) => d.Kunnr === dealerId);
     if (dealer) setSelectedDealer(dealer);
   };
+
+  const { pending, completed } = useMemo(() => {
+    const pending: Dealer[] = [];
+    const completed: Dealer[] = [];
+    for (const d of dealers) (d.BeatFreq === "Y" ? completed : pending).push(d);
+    return { pending, completed };
+  }, [dealers]);
 
   if (selectedDealer) {
     return (
@@ -64,37 +75,30 @@ export default function LandingPage() {
     );
   }
 
-  if (dealers.length < 1) {
-    return (
-      <MainLayout>
-        <NoDealersState onRefresh={refetch} />
-      </MainLayout>
-    );
-  }
-
   return (
     <MainLayout>
-      {/* <DeliveryStatusStripe
-        totalDeliveries={dealers.length}
-        delivered={dealers.filter((d) => d.Status === "delivered").length}
-        distanceCovered={0}
-      /> */}
-      {/* <DataTabs
+      <DataTabs
         tabs={[
           {
             label: "Pending",
             value: "pending",
+            count: pending.length || 0,
           },
           {
             label: "Completed",
             value: "completed",
+            count: completed.length || 0,
           },
         ]}
         activeTab={selectedTab}
         setActiveTab={setSelectedTab}
-      /> */}
+      />
 
-      <DealerList dealers={dealers} onDealerSelect={handleDealerSelect} />
+      <DealerList
+        dealers={selectedTab === "pending" ? pending : completed}
+        onDealerSelect={handleDealerSelect}
+        onRefresh={refetch}
+      />
     </MainLayout>
   );
 }
